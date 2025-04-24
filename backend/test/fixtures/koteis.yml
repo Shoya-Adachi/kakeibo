@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  year: MyString
+  month: MyString
+  rent: MyString
+  insurance: MyString
+  postage: MyString
+  water_supply: MyString
+  electric: MyString
+  etc: MyString
+
+two:
+  year: MyString
+  month: MyString
+  rent: MyString
+  insurance: MyString
+  postage: MyString
+  water_supply: MyString
+  electric: MyString
+  etc: MyString

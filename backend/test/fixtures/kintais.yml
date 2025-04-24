@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: one
+  date: 2025-04-24
+  salary: MyString
+  salary2: MyString
+  total_income: MyString
+  food: MyString
+  life: MyString
+  medical: MyString
+  entertainment: MyString
+  amusement: MyString
+  etc: MyString
+  total_expenditures: MyString
+
+two:
+  user_id: two
+  date: 2025-04-24
+  salary: MyString
+  salary2: MyString
+  total_income: MyString
+  food: MyString
+  life: MyString
+  medical: MyString
+  entertainment: MyString
+  amusement: MyString
+  etc: MyString
+  total_expenditures: MyString
