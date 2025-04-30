@@ -10,11 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_24_014531) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_28_083148) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "kintais", force: :cascade do |t|
+  create_table "kakeibos", force: :cascade do |t|
     t.string "user_id", null: false
     t.date "date"
     t.string "salary"
@@ -29,7 +29,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_24_014531) do
     t.string "total_expenditures"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_kintais_on_user_id"
+    t.index ["user_id"], name: "index_kakeibos_on_user_id"
   end
 
   create_table "koteis", id: false, force: :cascade do |t|
@@ -49,5 +49,5 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_24_014531) do
     t.string "password_digest"
   end
 
-  add_foreign_key "kintais", "users"
+  add_foreign_key "kakeibos", "users"
 end
