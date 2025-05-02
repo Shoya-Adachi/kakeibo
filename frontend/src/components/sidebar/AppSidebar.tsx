@@ -12,14 +12,21 @@ import HomeIcon from "@mui/icons-material/Home";
 import CreateIcon from "@mui/icons-material/Create";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import SettingsIcon from "@mui/icons-material/Settings";
+import { useNavigate } from "react-router-dom";
 
 const AppSideBar = () => {
+  const navigate = useNavigate();
+
   const menu = [
-    { label: "HOME", icon: <HomeIcon /> },
-    { label: "家計簿入力", icon: <CreateIcon /> },
-    { label: "家計簿一覧", icon: <CalendarMonthIcon /> },
-    { label: "固定費管理", icon: <SettingsIcon /> },
+    { label: "HOME", icon: <HomeIcon />, path: "" },
+    { label: "家計簿入力", icon: <CreateIcon />, path: "KakeiboInput-page" },
+    { label: "家計簿一覧", icon: <CalendarMonthIcon />, path: "*" },
+    { label: "固定費管理", icon: <SettingsIcon />, path: "*" },
   ];
+
+  const clickHandler = (path: string) => {
+    navigate(`/${path}`);
+  };
 
   return (
     <Box sx={{ width: "250px", height: "100vh", bgcolor: "primary.main" }}>
@@ -41,7 +48,10 @@ const AppSideBar = () => {
         <List>
           {menu.map((item, index) => (
             <ListItem key={index} disablePadding>
-              <ListItemButton sx={{ color: "primary.contrastText" }}>
+              <ListItemButton
+                sx={{ color: "primary.contrastText" }}
+                onClick={() => clickHandler(item.path)}
+              >
                 <ListItemIcon sx={{ color: "primary.contrastText" }}>
                   {item.icon}
                 </ListItemIcon>
