@@ -6,79 +6,53 @@ import ContactSupportIcon from "@mui/icons-material/ContactSupport";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useState } from "react";
+import { kakeiboInputFormatter } from "../../utils/ApiFormatter";
 import { CreateKakeiboApi } from "../../api/KakeiboApi";
 
-type IncomeData = {
-  salary: number;
-  salary2: number;
-  totalIncome: number;
-};
-
-type expendituresData = {
-  food: number;
-  life: number;
-  medical: number;
-  entertainment: number;
-  amusement: number;
-  etc: number;
-  totalExpenses: number;
+type KakeiboData = {
+  name: string;
+  amount: number;
 };
 
 type dateData = {
   date: Date | null;
 };
 
-export type submitData = IncomeData & expendituresData & dateData;
+export type submitData = KakeiboData & dateData;
 
 const KakeiboInputScreen = () => {
   const [date, setDate] = useState<Date | null>(new Date());
-  const [income, setIncome] = useState<IncomeData>({
-    salary: 0,
-    salary2: 0,
-    totalIncome: 0,
-  });
+  const [income, setIncome] = useState<KakeiboData[]>([
+    { name: "salary", amount: 0 },
+    { name: "salaryw", amount: 0 },
+  ]);
 
-  const [expenditures, setExpenditures] = useState<expendituresData>({
-    food: 0,
-    life: 0,
-    medical: 0,
-    entertainment: 0,
-    amusement: 0,
-    etc: 0,
-    totalExpenses: 0,
-  });
+  const [expenses, setExpenses] = useState<KakeiboData[]>([
+    { name: "food", amount: 0 },
+    { name: "life", amount: 0 },
+    { name: "medical", amount: 0 },
+    { name: "entertaiment", amount: 0 },
+    { name: "amusement", amount: 0 },
+    { name: "etc", amount: 0 },
+  ]);
 
-  const handleIncomeChange =
-    (field: keyof IncomeData) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      const value = Number(e.target.value); // 文字列→数値に変換
-      const updatedIncome = {
-        ...income,
-        [field]: value,
-      };
-      updatedIncome.totalIncome = updatedIncome.salary + updatedIncome.salary2;
-      setIncome(updatedIncome);
-    };
+  const totalExpenses = expenses.reduce((sum, item) => sum + item.amount, 0);
+  const totalIncome = income.reduce((sum, item) => sum + item.amount, 0);
 
-  const handleExpensesChange =
-    (field: keyof expendituresData) =>
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const value = Number(e.target.value); // 文字列→数値に変換
-      const updatedExpenses = {
-        ...expenditures,
-        [field]: value,
-      };
-      updatedExpenses.totalExpenses =
-        updatedExpenses.food +
-        updatedExpenses.medical +
-        updatedExpenses.medical +
-        updatedExpenses.amusement +
-        updatedExpenses.entertainment +
-        updatedExpenses.etc;
-      setExpenditures(updatedExpenses);
-    };
+  const handleIncomeChange = (index: number, value: string) => {
+    const updatedIncomes = [...income];
+    updatedIncomes[index].amount = parseFloat(value) || 0;
+    setIncome(updatedIncomes);
+  };
+
+  const handleExpensesChange = (index: number, value: string) => {
+    const updatedExpenses = [...expenses];
+    updatedExpenses[index].amount = parseFloat(value) || 0;
+    setExpenses(updatedExpenses);
+  };
 
   const clickHandler = async () => {
-    const submitData: submitData = { date, ...income, ...expenditures };
+    const submitData = kakeiboInputFormatter([date, ...income, ...expenses]);
     try {
       const response = await CreateKakeiboApi(submitData);
 
@@ -125,21 +99,18 @@ const KakeiboInputScreen = () => {
             <Box sx={{ display: "flex", gap: "50px" }}>
               <TextForm
                 label="給料"
-                value={income?.salary.toString()}
-                changeHandler={handleIncomeChange("salary")}
+                value={income[0]?.amount.toString()}
+                changeHandler={(e) => handleIncomeChange(0, e.target.value)}
               />
               <TextFormToolTip
                 label="臨時収入"
                 text="お祝い金など"
-                value={income?.salary2.toString()}
-                changeHandler={handleIncomeChange("salary2")}
+                value={income[1]?.amount.toString()}
+                changeHandler={(e) => handleIncomeChange(1, e.target.value)}
               >
                 <ContactSupportIcon />
               </TextFormToolTip>
-              <TextForm
-                label="収入合計"
-                value={income?.totalIncome.toString()}
-              />
+              <TextForm label="収入合計" value={totalIncome.toString()} />
             </Box>
           </Box>
           <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
@@ -152,49 +123,46 @@ const KakeiboInputScreen = () => {
             <Box sx={{ display: "flex", gap: "50px" }}>
               <TextForm
                 label="食費"
-                value={expenditures?.food.toString()}
-                changeHandler={handleExpensesChange("food")}
+                value={expenses[0]?.amount.toString()}
+                changeHandler={(e) => handleExpensesChange(0, e.target.value)}
               />
               <TextForm
                 label="日用品費"
-                value={expenditures?.life.toString()}
-                changeHandler={handleExpensesChange("life")}
+                value={expenses[1]?.amount.toString()}
+                changeHandler={(e) => handleExpensesChange(1, e.target.value)}
               />
               <TextForm
                 label="医療費"
-                value={expenditures?.medical.toString()}
-                changeHandler={handleExpensesChange("medical")}
+                value={expenses[2]?.amount.toString()}
+                changeHandler={(e) => handleExpensesChange(2, e.target.value)}
               />
             </Box>
             <Box sx={{ display: "flex", gap: "50px" }}>
               <TextFormToolTip
                 label="交際費"
                 text="飲み会やお仕事関係の出費"
-                value={expenditures?.entertainment.toString()}
-                changeHandler={handleExpensesChange("entertainment")}
+                value={expenses[3]?.amount.toString()}
+                changeHandler={(e) => handleExpensesChange(3, e.target.value)}
               >
                 <ContactSupportIcon />
               </TextFormToolTip>
               <TextFormToolTip
                 label="教養娯楽費"
                 text="書籍・新聞・雑誌の購入費、美術館や映画館の入場料、旅行やスポーツ観戦、趣味の習い事など"
-                value={expenditures?.amusement.toString()}
-                changeHandler={handleExpensesChange("amusement")}
+                value={expenses[4]?.amount.toString()}
+                changeHandler={(e) => handleExpensesChange(4, e.target.value)}
               >
                 <ContactSupportIcon />
               </TextFormToolTip>
               <TextFormToolTip
                 label="その他"
                 text="どれにも当てはまらないものがあればここで"
-                value={expenditures?.etc.toString()}
-                changeHandler={handleExpensesChange("etc")}
+                value={expenses[5]?.amount.toString()}
+                changeHandler={(e) => handleExpensesChange(5, e.target.value)}
               >
                 <ContactSupportIcon />
               </TextFormToolTip>
-              <TextForm
-                label="支出合計"
-                value={expenditures?.totalExpenses.toString()}
-              />
+              <TextForm label="支出合計" value={totalExpenses.toString()} />
             </Box>
           </Box>
           <Button
