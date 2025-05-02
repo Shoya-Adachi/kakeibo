@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Snackbar, Typography } from "@mui/material";
 import TextForm from "../../components/textform/TextForm";
 import Layout from "../../Layout";
 import TextFormToolTip from "../../components/textform/TextFormToolTip";
@@ -8,59 +8,86 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useState } from "react";
 import { kakeiboInputFormatter } from "../../utils/ApiFormatter";
 import { CreateKakeiboApi } from "../../api/KakeiboApi";
+import { ConfirmationDialog } from "../../components/dialog/AppDialog";
 
 type KakeiboData = {
   name: string;
   amount: number;
 };
 
-type dateData = {
-  date: Date | null;
-};
-
-export type submitData = KakeiboData & dateData;
-
 const KakeiboInputScreen = () => {
   const [date, setDate] = useState<Date | null>(new Date());
-  const [income, setIncome] = useState<KakeiboData[]>([
-    { name: "salary", amount: 0 },
-    { name: "salaryw", amount: 0 },
-  ]);
 
-  const [expenses, setExpenses] = useState<KakeiboData[]>([
+  const initialIncome: KakeiboData[] = [
+    { name: "salary", amount: 0 },
+    { name: "salary2", amount: 0 },
+  ];
+
+  const initialExpenses: KakeiboData[] = [
     { name: "food", amount: 0 },
     { name: "life", amount: 0 },
     { name: "medical", amount: 0 },
     { name: "entertaiment", amount: 0 },
     { name: "amusement", amount: 0 },
     { name: "etc", amount: 0 },
-  ]);
+  ];
 
+  const [income, setIncome] = useState<KakeiboData[]>(initialIncome);
+  const [expenses, setExpenses] = useState<KakeiboData[]>(initialExpenses);
+  const [open, setOpen] = useState(false);
+  const [openSnackBar, setOpenSnackBar] = useState(false);
+
+  //収入・出費合計計算
   const totalExpenses = expenses.reduce((sum, item) => sum + item.amount, 0);
   const totalIncome = income.reduce((sum, item) => sum + item.amount, 0);
 
+  //各収入項目表示処理
   const handleIncomeChange = (index: number, value: string) => {
     const updatedIncomes = [...income];
     updatedIncomes[index].amount = parseFloat(value) || 0;
     setIncome(updatedIncomes);
   };
 
+  //各出費項目表示処理
   const handleExpensesChange = (index: number, value: string) => {
     const updatedExpenses = [...expenses];
     updatedExpenses[index].amount = parseFloat(value) || 0;
     setExpenses(updatedExpenses);
   };
 
+  const opneDialog = () => {
+    setOpen(true);
+  };
+
+  // 登録ボタンクリック時の処理
   const clickHandler = async () => {
     const submitData = kakeiboInputFormatter([date, ...income, ...expenses]);
     try {
       const response = await CreateKakeiboApi(submitData);
 
       console.log(response);
+
+      if (response.status == "success") {
+        setOpen(false);
+        setIncome(initialIncome);
+        setExpenses(initialExpenses);
+        setDate(new Date());
+        setOpenSnackBar(true);
+      }
     } catch (error) {
       console.log("登録失敗");
     }
   };
+
+  const snackBarAction = (
+    <Button
+      color="secondary"
+      size="small"
+      onClick={() => setOpenSnackBar(false)}
+    >
+      X
+    </Button>
+  );
 
   return (
     <Layout title="家計簿入力">
@@ -168,12 +195,25 @@ const KakeiboInputScreen = () => {
           <Button
             variant="contained"
             sx={{ width: "150px" }}
-            onClick={clickHandler}
+            onClick={opneDialog}
           >
             登録
           </Button>
         </Box>
       </LocalizationProvider>
+      <ConfirmationDialog
+        open={open}
+        setOpen={setOpen}
+        agreeFunction={clickHandler}
+        title="登録確認"
+        text="登録してもよろしいですか？"
+      />
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        open={openSnackBar}
+        message="正常に登録されました。"
+        action={snackBarAction}
+      />
     </Layout>
   );
 };
