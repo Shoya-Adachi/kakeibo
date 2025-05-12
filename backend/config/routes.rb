@@ -10,7 +10,11 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :kakeibo
+      resources :kakeibo do
+        collection do
+          get :total
+        end
+      end
     end
   end
 end

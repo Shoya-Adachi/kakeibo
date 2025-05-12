@@ -1,4 +1,16 @@
 class Api::V1::KakeiboController < ApplicationController
+  def total
+    month = params[:month] || Date.today.strftime("%Y-%m")
+    start_date = Date.parse("#{month}-01")
+    end_date = start_date.end_of_month
+
+    total_income = Kakeibo.where(date: start_date..end_date).pluck(:total_income).map(&:to_i).sum
+    total_expend = Kakeibo.where(date: start_date..end_date).pluck(:total_expenditures).map(&:to_i).sum
+    total = total_income - total_expend
+    render json: { month: month, total_amount: total }
+  end
+
+
   def create
     kakeibo = Kakeibo.build(
       user_id: params[:user_id],
