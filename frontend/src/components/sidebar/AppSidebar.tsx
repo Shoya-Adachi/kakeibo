@@ -20,7 +20,11 @@ const AppSideBar = () => {
   const menu = [
     { label: "HOME", icon: <HomeIcon />, path: "" },
     { label: "家計簿入力", icon: <CreateIcon />, path: "KakeiboInput-page" },
-    { label: "家計簿一覧", icon: <CalendarMonthIcon />, path: "*" },
+    {
+      label: "家計簿一覧",
+      icon: <CalendarMonthIcon />,
+      path: "KakeiboList-page",
+    },
     { label: "固定費管理", icon: <SettingsIcon />, path: "*" },
   ];
 
