@@ -55,7 +55,7 @@ const KakeiboInputScreen = () => {
     setExpenses(updatedExpenses);
   };
 
-  const opneDialog = () => {
+  const openDialog = () => {
     setOpen(true);
   };
 
@@ -119,7 +119,7 @@ const KakeiboInputScreen = () => {
           <Box>
             <Typography
               variant="h3"
-              sx={{ color: "primary.main", marginTop: 5, textAlign: "left" }}
+              sx={{ color: "secondary.main", marginTop: 5, textAlign: "left" }}
             >
               - 収入 -
             </Typography>
@@ -143,7 +143,7 @@ const KakeiboInputScreen = () => {
           <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
             <Typography
               variant="h3"
-              sx={{ color: "primary.main", marginTop: 5, textAlign: "left" }}
+              sx={{ color: "secondary.main", marginTop: 5, textAlign: "left" }}
             >
               - 支出 -
             </Typography>
@@ -194,8 +194,9 @@ const KakeiboInputScreen = () => {
           </Box>
           <Button
             variant="contained"
+            color="secondary"
             sx={{ width: "150px" }}
-            onClick={opneDialog}
+            onClick={openDialog}
           >
             登録
           </Button>

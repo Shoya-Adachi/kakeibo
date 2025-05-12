@@ -22,6 +22,7 @@ const Layout = ({ title, children }: LayoutProps) => {
         sx={{
           display: "flex",
           flexDirection: "column",
+          width: "100%",
           paddingLeft: "50px",
           paddingTop: "30px",
         }}
@@ -29,7 +30,7 @@ const Layout = ({ title, children }: LayoutProps) => {
         <Typography
           variant="h2"
           sx={{
-            color: "primary.main",
+            color: "secondary.main",
             textAlign: "left",
             marginBottom: "50px",
           }}

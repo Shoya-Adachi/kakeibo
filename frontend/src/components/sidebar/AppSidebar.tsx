@@ -29,7 +29,7 @@ const AppSideBar = () => {
   };
 
   return (
-    <Box sx={{ width: "250px", height: "100vh", bgcolor: "primary.main" }}>
+    <Box sx={{ width: "250px", height: "100vh", bgcolor: "secondary.main" }}>
       <Box
         sx={{
           height: "50%",
@@ -41,7 +41,7 @@ const AppSideBar = () => {
       >
         <Typography
           variant="h4"
-          sx={{ color: "primary.contrastText", marginTop: 5 }}
+          sx={{ color: "secondary.contrastText", marginTop: 5 }}
         >
           Kakeibo
         </Typography>
@@ -49,10 +49,10 @@ const AppSideBar = () => {
           {menu.map((item, index) => (
             <ListItem key={index} disablePadding>
               <ListItemButton
-                sx={{ color: "primary.contrastText" }}
+                sx={{ color: "secondary.contrastText" }}
                 onClick={() => clickHandler(item.path)}
               >
-                <ListItemIcon sx={{ color: "primary.contrastText" }}>
+                <ListItemIcon sx={{ color: "secondary.contrastText" }}>
                   {item.icon}
                 </ListItemIcon>
                 <ListItemText>{item.label}</ListItemText>

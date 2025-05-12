@@ -29,8 +29,11 @@ export const ConfirmationDialog = ({
         <DialogContentText>{text}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={agreeFunction}>はい</Button>
+        <Button sx={{ color: "secondary.main" }} onClick={agreeFunction}>
+          はい
+        </Button>
         <Button
+          sx={{ color: "secondary.main" }}
           onClick={() => {
             setOpen(false);
           }}

@@ -2,6 +2,21 @@ import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
+export const GetMonthTotalApi = async (date: string) => {
+  try {
+    const response = await axios.get(`http://${API_URL}/api/v1/kakeibo/total`, {
+      params: {
+        month: date,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error;
+    throw error;
+  }
+};
+
 export const CreateKakeiboApi = async (data: any) => {
   try {
     const response = await axios.post(`http://${API_URL}/api/v1/kakeibo`, {
