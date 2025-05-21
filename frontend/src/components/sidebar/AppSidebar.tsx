@@ -25,7 +25,7 @@ const AppSideBar = () => {
       icon: <CalendarMonthIcon />,
       path: "KakeiboList-page",
     },
-    { label: "固定費管理", icon: <SettingsIcon />, path: "*" },
+    // { label: "固定費管理", icon: <SettingsIcon />, path: "*" },
   ];
 
   const clickHandler = (path: string) => {

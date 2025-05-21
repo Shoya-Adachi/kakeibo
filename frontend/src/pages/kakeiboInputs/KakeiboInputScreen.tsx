@@ -65,8 +65,6 @@ const KakeiboInputScreen = () => {
     try {
       const response = await CreateKakeiboApi(submitData);
 
-      console.log(response);
-
       if (response.status == "success") {
         setOpen(false);
         setIncome(initialIncome);

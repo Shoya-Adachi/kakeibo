@@ -1,4 +1,11 @@
 class Api::V1::KakeiboController < ApplicationController
+  def index
+        kakeibo = Kakeibo.all
+
+        render json: kakeibo.as_json(only: [:id, :date, :total_income,:total_expenditures])
+  end
+
+
   def total
     month = params[:month] || Date.today.strftime("%Y-%m")
     start_date = Date.parse("#{month}-01")
@@ -32,5 +39,16 @@ class Api::V1::KakeiboController < ApplicationController
     else
       render json: { status: "error", errors: kakeibo.errors.full_messages }, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    kakeibo = Kakeibo.find(params[:id])
+
+      if kakeibo
+        kakeibo.destroy
+        head :no_content
+      else
+        render json: {error: 'data not found'}, status: :not_found
+      end
   end
 end

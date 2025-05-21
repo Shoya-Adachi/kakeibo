@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   IconButton,
   InputAdornment,
   TextField,
@@ -10,8 +11,10 @@ import { useEffect, useState } from "react";
 import { GetMonthTotalApi } from "../../api/KakeiboApi";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
   const day = new Date();
   const y = day.getFullYear();
   const m = day.getMonth() + 1;
@@ -53,7 +56,7 @@ const Home = () => {
   };
 
   return (
-    <Layout title="Home">
+    <Layout title="HOME">
       <Box
         sx={{
           display: "flex",
@@ -85,7 +88,6 @@ const Home = () => {
               <ArrowCircleRightIcon sx={{ fontSize: 50 }} />
             </IconButton>
           </Box>
-
           <TextField
             focused
             sx={{
@@ -95,7 +97,7 @@ const Home = () => {
                 alignItems: "center", // ✅ 垂直中央寄せ（オプション）
               },
               "& .MuiInputBase-input": {
-                fontSize: "2rem", // ✅ テキストが小さすぎないように調整
+                fontSize: "3rem", // ✅ テキストが小さすぎないように調整
                 color: total < 0 ? "warning.contrastText" : "secondary.main",
                 textAlign: "center",
               },
@@ -113,6 +115,17 @@ const Home = () => {
             value={total}
           />
         </Box>
+        <Button
+          variant="outlined"
+          onClick={() => navigate("/kakeiboList-page")}
+          sx={{
+            borderColor: "secondary.main",
+            color: "secondary.main",
+            mt: 3,
+          }}
+        >
+          詳細へ
+        </Button>
       </Box>
     </Layout>
   );

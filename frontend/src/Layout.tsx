@@ -1,6 +1,5 @@
 import { Box, Typography } from "@mui/material";
 import AppSideBar from "./components/sidebar/AppSidebar";
-import React from "react";
 
 type LayoutProps = {
   title: String;
@@ -23,7 +22,7 @@ const Layout = ({ title, children }: LayoutProps) => {
           display: "flex",
           flexDirection: "column",
           width: "100%",
-          paddingLeft: "50px",
+          paddingX: "50px",
           paddingTop: "30px",
         }}
       >

@@ -2,6 +2,17 @@ import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
+export const fetchKakeibo = async () => {
+  try {
+    const response = await axios.get(`http://${API_URL}/api/v1/kakeibo`);
+
+    return response.data;
+  } catch (error) {
+    console.error;
+    throw error;
+  }
+};
+
 export const GetMonthTotalApi = async (date: string) => {
   try {
     const response = await axios.get(`http://${API_URL}/api/v1/kakeibo/total`, {
@@ -36,6 +47,18 @@ export const CreateKakeiboApi = async (data: any) => {
 
     return response.data;
   } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteKakeibo = async (id: any) => {
+  try {
+    const response = await axios.delete(
+      `http://${API_URL}/api/v1/kakeibo/${id}`
+    );
+    return response;
+  } catch (error) {
+    console.error;
     throw error;
   }
 };
